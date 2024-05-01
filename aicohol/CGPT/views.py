@@ -36,3 +36,6 @@ def query_view(request):
         response = get_completion(prompt)
         return JsonResponse({"response": response})
     return render(request, "index.html")
+
+def category_view(request):
+    return render(request, 'category.html')

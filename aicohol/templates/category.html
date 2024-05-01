@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aicohol</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .grid-button {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .grid-button img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <header class="bg-gray-100 py-4">
+        <div class="max-w-6xl mx-auto px-5 flex justify-between items-center">
+            <h1 class="text-xl font-bold">AICOHOL</h1>
+            <nav>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md mr-2" onclick="location.href='{% url 'query_view'%}'">CHATBOT</button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-md">PROFILE</button>
+            </nav>
+        </div>
+    </header>
+    <main class="max-w-6xl mx-auto px-5 py-10">
+        <div class="grid-button">
+            <button><img src="https://source.unsplash.com/random/300x300?sig=1" alt="Button Image 1"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=2" alt="Button Image 2"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=3" alt="Button Image 3"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=4" alt="Button Image 4"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=5" alt="Button Image 5"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=6" alt="Button Image 6"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=7" alt="Button Image 7"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=8" alt="Button Image 8"></button>
+            <button><img src="https://source.unsplash.com/random/300x300?sig=9" alt="Button Image 9"></button>
+        </div>
+    </main>
+</body>
+</html>
