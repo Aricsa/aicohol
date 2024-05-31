@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from openai import OpenAI
+# from openai import OpenAI
 import time
+import openai
 
-client = OpenAI(api_key="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")
+client = openai.api_key = "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" 
+# = OpenAI(api_key="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")
 import os
 
 # 앞서 자신이 부여받은 API key를 넣으면 된다. 절대 외부에 공개해서는 안된다.
@@ -35,9 +37,13 @@ def get_completion(prompt):
             response = query.choices[0].message.content
             print(response)
             return response
-        except OpenAI.OpenAIError as e:
-            print(f"Rate limit exceeded, sleeping for {e.wait_seconds} seconds")
-            time.sleep(e.wait_seconds)
+        except openai.error.RateLimitError as e:
+            print(f"Rate limit exceeded, sleeping for {e.rate.reset_in} seconds")
+            time.sleep(e.rate.reset_in)
+            return get_completion(prompt)
+        # except OpenAI.OpenAIError as e:
+        #     print(f"Rate limit exceeded, sleeping for {e.wait_seconds} seconds")
+        #     time.sleep(e.wait_seconds)
 
 
 def query_view(request):
@@ -48,6 +54,32 @@ def query_view(request):
         return JsonResponse({"response": response})
     return render(request, "index.html")
 
+def list_view(request):
+    return render(request, "list.html")
 
-def category_view(request):
-    return render(request, "category.html")
+def detail_view(request):
+    return render(request, 'detail.html')
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import os
+from io import BytesIO
+import openai
+
+@csrf_exempt
+def transcribe_audio(request):
+    if request.method == "POST":
+        audio_file = request.FILES.get("audio_file")
+        if audio_file:
+            try:
+                audio_file_obj = BytesIO(audio_file.read())
+                audio_file_obj.name = audio_file.name
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                transcription = openai.Audio.transcribe("whisper-1", file=audio_file_obj, language="ko")
+                print(f"Transcription: {transcription.text}")
+                return JsonResponse({"transcription": transcription.text})
+            except Exception as e:
+                return JsonResponse({"error": str(e)}, status=400)
+    
+    return JsonResponse({"error": "Invalid request"}, status=400)
