@@ -1,35 +1,3 @@
-{% comment %} {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AICOHOL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-    </style>
-    <script type="text/javascript">
-        var detailViewUrl = "{% url 'detail_view' %}";
-    </script>
-	<script src="{% static 'list.js' %}"></script>
-</head>
-<body class="bg-gray-100 text-gray-900">
-    <header class="bg-white shadow p-4 flex justify-between items-center">
-        <h1 class="text-2xl font-bold">AICOHOL</h1>
-        <div>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'query_view'%}'">CHATBOT</button>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded">AUDIO</button>
-        </div>
-    </header>
-    <main class="p-4">
-        <div id="aicoholServices"></div>
-    </main>
-</body>
-</html> {% endcomment %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
