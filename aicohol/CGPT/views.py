@@ -21,13 +21,10 @@ def get_completion(prompt):
     print(prompt)
     prompt2 = prompt_research(prompt)
     print(prompt2)
-    # if prompt2 == 1:
-    #     prompt = recommend(prompt)
-    #     print(prompt)
-    if prompt2 == 2:
+    if prompt2 == Prompt_type.Reference:
         prompt = reference()
         print(prompt)
-    elif prompt2 == 3 or prompt2 == 1:
+    elif prompt2 == Prompt_type.Reference_Recommend or prompt2 == Prompt_type.Recommend:
         prompt = reference_recommend(prompt)
         print(prompt)
     else:
