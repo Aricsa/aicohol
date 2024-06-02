@@ -3,7 +3,9 @@ from django.http import JsonResponse
 from openai import OpenAI
 from enum import Enum
 from .query import prompt_research, recommend, reference, reference_recommend
+import openai
 
+# client = openai.api_key = "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" 
 client = OpenAI(api_key="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")
 import os
 
@@ -63,6 +65,32 @@ def query_view(request):
         return JsonResponse({"response": response})
     return render(request, "index.html")
 
+def list_view(request):
+    return render(request, "list.html")
 
-def category_view(request):
-    return render(request, "category.html")
+def detail_view(request):
+    return render(request, 'detail.html')
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import os
+from io import BytesIO
+import openai
+
+@csrf_exempt
+def transcribe_audio(request):
+    if request.method == "POST":
+        audio_file = request.FILES.get("audio_file")
+        if audio_file:
+            try:
+                audio_file_obj = BytesIO(audio_file.read())
+                audio_file_obj.name = audio_file.name
+                openai.api_key = os.getenv("OPENAI_API_KEY")
+                transcription = openai.Audio.transcribe("whisper-1", file=audio_file_obj, language="ko")
+                print(f"Transcription: {transcription.text}")
+                return JsonResponse({"transcription": transcription.text})
+            except Exception as e:
+                return JsonResponse({"error": str(e)}, status=400)
+    
+    return JsonResponse({"error": "Invalid request"}, status=400)
