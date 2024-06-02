@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-# from openai import OpenAI
+from openai import OpenAI
 import time
 import openai
 
-client = openai.api_key = "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" 
-# = OpenAI(api_key="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")
+# client = openai.api_key = "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" 
+client = OpenAI(api_key="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")
 import os
 
 # 앞서 자신이 부여받은 API key를 넣으면 된다. 절대 외부에 공개해서는 안된다.
