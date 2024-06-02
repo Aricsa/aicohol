@@ -1,21 +1,14 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from openai import OpenAI
-from enum import Enum
 from .query import prompt_research, recommend, reference, reference_recommend
 import openai
 
-# client = openai.api_key = "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" 
+# client = openai.api_key = "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"
 client = OpenAI(api_key="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")
 import os
 
 # 앞서 자신이 부여받은 API key를 넣으면 된다. 절대 외부에 공개해서는 안된다.
-
-
-class Prompt_type(Enum):
-    Recommend = 1
-    Reference = 2
-    Reference_Recommend = 3
 
 
 def get_completion(prompt):
@@ -23,10 +16,10 @@ def get_completion(prompt):
     print(prompt)
     prompt2 = prompt_research(prompt)
     print(prompt2)
-    if prompt2 == Prompt_type.Reference:
+    if prompt2 == 2:
         prompt = reference()
         print(prompt)
-    elif prompt2 == Prompt_type.Reference_Recommend or prompt2 == Prompt_type.Recommend:
+    elif prompt2 == 1 or prompt2 == 3:
         prompt = reference_recommend(prompt)
         print(prompt)
     else:
@@ -65,11 +58,13 @@ def query_view(request):
         return JsonResponse({"response": response})
     return render(request, "index.html")
 
+
 def list_view(request):
     return render(request, "list.html")
 
+
 def detail_view(request):
-    return render(request, 'detail.html')
+    return render(request, "detail.html")
 
 
 from django.http import JsonResponse
@@ -77,6 +72,7 @@ from django.views.decorators.csrf import csrf_exempt
 import os
 from io import BytesIO
 import openai
+
 
 @csrf_exempt
 def transcribe_audio(request):
@@ -87,10 +83,12 @@ def transcribe_audio(request):
                 audio_file_obj = BytesIO(audio_file.read())
                 audio_file_obj.name = audio_file.name
                 openai.api_key = os.getenv("OPENAI_API_KEY")
-                transcription = openai.Audio.transcribe("whisper-1", file=audio_file_obj, language="ko")
+                transcription = openai.Audio.transcribe(
+                    "whisper-1", file=audio_file_obj, language="ko"
+                )
                 print(f"Transcription: {transcription.text}")
                 return JsonResponse({"transcription": transcription.text})
             except Exception as e:
                 return JsonResponse({"error": str(e)}, status=400)
-    
+
     return JsonResponse({"error": "Invalid request"}, status=400)
