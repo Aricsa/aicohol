@@ -19,8 +19,8 @@
         <div class="container mx-auto flex justify-between items-center px-4">
             <h1 class="text-3xl font-bold">AICOHOL</h1>
             <div class="flex space-x-4">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded">CHATBOT</button>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded">PROFILE</button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'query_view'%}'">챗봇</button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'list_view'%}'">홈페이지</button>
             </div>
         </div>
     </header>
@@ -29,7 +29,6 @@
             <div class="bg-white shadow-md rounded-lg p-6 w-full max-w-4xl">
                 <div class="flex">
                     <div id="aicoholServicesDetail"></div>
-                    
                 </div>
             </div>
         </div>

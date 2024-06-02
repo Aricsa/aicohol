@@ -2,7 +2,11 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from openai import OpenAI
 from .query import prompt_research, recommend, reference, reference_recommend
-import openai
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import os
+from io import BytesIO
+
 
 # client = openai.api_key = "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"
 client = OpenAI(api_key="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")
@@ -67,11 +71,6 @@ def detail_view(request):
     return render(request, "detail.html")
 
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import os
-from io import BytesIO
-import openai
 
 
 @csrf_exempt
@@ -82,9 +81,12 @@ def transcribe_audio(request):
             try:
                 audio_file_obj = BytesIO(audio_file.read())
                 audio_file_obj.name = audio_file.name
-                openai.api_key = os.getenv("OPENAI_API_KEY")
-                transcription = openai.Audio.transcribe(
-                    "whisper-1", file=audio_file_obj, language="ko"
+                # openai.api_key = os.getenv("OPENAI_API_KEY")
+                # transcription = openai.Audio.transcribe(
+                #     "whisper-1", file=audio_file_obj, language="ko"
+                # )
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1", file=audio_file_obj, language="ko"
                 )
                 print(f"Transcription: {transcription.text}")
                 return JsonResponse({"transcription": transcription.text})
