@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from openai import OpenAI
 from enum import Enum
-from .query import prompt_research, recommend, reference
+from .query import prompt_research, recommend, reference, reference_recommend
 
 client = OpenAI(api_key="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")
 import os
@@ -21,14 +21,15 @@ def get_completion(prompt):
     print(prompt)
     prompt2 = prompt_research(prompt)
     print(prompt2)
-    if prompt2 == 1:
-        prompt = recommend(prompt)
-        print(prompt)
-    elif prompt2 == 2:
+    # if prompt2 == 1:
+    #     prompt = recommend(prompt)
+    #     print(prompt)
+    if prompt2 == 2:
         prompt = reference()
         print(prompt)
-    elif prompt2 == 3:
-        return "3번 프롬프트"
+    elif prompt2 == 3 or prompt2 == 1:
+        prompt = reference_recommend(prompt)
+        print(prompt)
     else:
         return "죄송합니다. 말씀하신 바를 잘 이해하지 못했어요..."
     query = client.chat.completions.create(
