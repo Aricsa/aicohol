@@ -104,6 +104,7 @@
 
         function startRecording() {
             try {
+                toggleRecordingState(true);
                 navigator.mediaDevices.getUserMedia({ audio: true })
                 .then(stream => {
                     mediaRecorder = new MediaRecorder(stream);
@@ -141,17 +142,60 @@
         function stopRecording() {
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop();
+                toggleRecordingState(false);
             }
         }
+        
+        function toggleRecordingState(recording) {
+            const recordBtn = document.getElementById('recordBtn');
+            if (recording) {
+                recordBtn.textContent = '🎤 음성인식 중지';
+                recordBtn.classList.remove('bg-blue-500');
+                recordBtn.classList.add('bg-red-500');
+                recordBtn.onclick = stopRecording;
+            } else {
+                recordBtn.textContent = '🎤 음성인식 시작';
+                recordBtn.classList.remove('bg-red-500');
+                recordBtn.classList.add('bg-blue-500');
+                recordBtn.onclick = startRecording;
+            }
+        }
+
+        {% comment %} function addRecordingState() {
+            const aicoholServicesContainer = document.getElementById('recordingState');
+            aicoholServicesContainer.innerHTML = '';
+            const serviceElement = document.createElement('div');
+            serviceElement.innerHTML += 
+            `<button class="bg-blue-500 text-white px-4 py-2 rounded">녹음중</button>` +
+            `<button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'list_view'%}'">홈페이지</button>` +
+            `<button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="startRecording()">🎤음성인식 시작</button>` +
+            `<button class="bg-red-500 text-white px-4 py-2 rounded" onclick="stopRecording()">🎤음성인식 중지</button>`;
+            aicoholServicesContainer.appendChild(serviceElement);
+        }
+
+        function removeRecordingState() {
+            const aicoholServicesContainer = document.getElementById('recordingState');
+            aicoholServicesContainer.innerHTML = '';
+            const serviceElement = document.createElement('div');
+            serviceElement.innerHTML += 
+            `<button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'list_view'%}'">홈페이지</button>` +
+            `<button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="startRecording()">🎤음성인식 시작</button>` +
+            `<button class="bg-red-500 text-white px-4 py-2 rounded" onclick="stopRecording()">🎤음성인식 중지</button>`;
+            aicoholServicesContainer.appendChild(serviceElement);
+        } {% endcomment %}
     </script>
 </head>
 <body class="bg-gray-100 text-gray-900">
     <header class="bg-white shadow p-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold">AICOHOL</h1>
-        <div>
+        {% comment %} <div id="recordingState">
             <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'list_view'%}'">홈페이지</button>
             <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="startRecording()">🎤음성인식 시작</button>
             <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="stopRecording()">🎤음성인식 중지</button>
+        </div> {% endcomment %}
+        <div id="recordingState">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'list_view'%}'">홈페이지</button>
+            <button id="recordBtn" class="bg-blue-500 text-white px-4 py-2 rounded" onclick="startRecording()">🎤음성인식 시작</button>
         </div>
     </header>
     <div class="container">
