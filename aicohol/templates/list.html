@@ -17,59 +17,12 @@
         var transcribeUrl = "{% url 'transcribe_audio' %}";
     </script>
     <script src="{% static 'list.js' %}"></script>
-    <script>
-        // 음성 녹음 및 전송 기능 구현
-        let mediaRecorder;
-        let audioChunks = [];
-
-        function startRecording() {
-            try {
-                navigator.mediaDevices.getUserMedia({ audio: true })
-                .then(stream => {
-                    mediaRecorder = new MediaRecorder(stream);
-                    mediaRecorder.addEventListener("dataavailable", (event) => {
-                        audioChunks.push(event.data);
-                    });
-                    mediaRecorder.addEventListener("stop", () => {
-                        const audioBlob = new Blob(audioChunks);
-                        const formData = new FormData();
-                        formData.append("audio_file", audioBlob, "audio.wav");
-                        fetch(transcribeUrl, {
-                            method: "POST",
-                            body: formData
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.error) {
-                                console.error(data.error);
-                            } else {
-                                console.log(`Transcription: ${data.transcription}`);
-                            }
-                        })
-                        .catch(error => console.error(`Error: ${error}`));
-                        audioChunks = [];
-                    });
-                    mediaRecorder.start();
-                });
-            } catch (error) {
-                console.error(`Error: ${error}`);
-            }
-        }
-
-        function stopRecording() {
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-            }
-        }
-    </script>
 </head>
 <body class="bg-gray-100 text-gray-900">
     <header class="bg-white shadow p-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold">AICOHOL</h1>
         <div>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'query_view'%}'">CHATBOT</button>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="startRecording()">START RECORDING</button>
-            <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="stopRecording()">STOP RECORDING</button>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'query_view'%}'">챗봇</button>
         </div>
     </header>
     <main class="p-4">
