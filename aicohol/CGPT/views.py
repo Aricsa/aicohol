@@ -24,30 +24,7 @@ def get_completion(prompt):
         print(prompt)
     else:
         return "죄송합니다. 말씀하신 바를 잘 이해하지 못했어요..."
-    query = client.chat.completions.create(
-        model="gpt-3.5-turbo-0613",
-        messages=[
-            {
-                "role": "assistant",
-                "content": "백틱 세개로 구분된 문장은 술과 관련된 질문이고,\
-                    백틱 두개로 구분된 문장은 그와 관련된 벡터DB의 정보야.\
-                    질문에 대한 답변을 벡터DB의 정보를 이용해 답변해줘.\
-                    또한 답변에는 질문이 들어가서는 안돼.\
-                    ```"
-                + original_prompt
-                + "``` ``"
-                + prompt
-                + "``",
-            }
-        ],
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0,
-    )
-    response = query.choices[0].message.content
-    print(response)
-    return response
+    return prompt
 
 
 def query_view(request):
