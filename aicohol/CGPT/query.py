@@ -67,11 +67,11 @@ def reference():
         refer = file.read()
 
     query = client.chat.completions.create(
-        model="gpt-3.5-turbo-0613",
+        model="ft:gpt-3.5-turbo-0125:personal::9W1oRdbd",
         messages=[
             {
                 "role": "assistant",
-                "content": "백틱 세개로 구분된 문장을 요약해서 해당 정보를 추천받았다고 설명해주세요.\
+                "content": "백틱 세개로 구분된 문장을 요약해서 설명해주세요. \
                     ```"
                 + refer
                 + "```",
