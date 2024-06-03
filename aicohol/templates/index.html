@@ -124,6 +124,8 @@
                                 console.error(data.error);
                             } else {
                                 console.log(`Transcription: ${data.transcription}`);
+                                $('#prompt').val(data.transcription);
+                                $('button[type="submit"]').click();
                             }
                         })
                         .catch(error => console.error(`Error: ${error}`));
