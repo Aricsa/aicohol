@@ -4,7 +4,6 @@ from openai import OpenAI
 from .query import prompt_research, recommend, reference, reference_recommend
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import os
 from io import BytesIO
 
 
@@ -69,9 +68,6 @@ def list_view(request):
 
 def detail_view(request):
     return render(request, "detail.html")
-
-
-
 
 @csrf_exempt
 def transcribe_audio(request):
