@@ -21,11 +21,16 @@
 <body class="bg-gray-100 text-gray-900">
     <header class="bg-white shadow p-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold">AICOHOL</h1>
-        <div>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded mr-2" onclick="location.href='{% url 'query_view'%}'">챗봇</button>
+        <div class="flex items-center">
+            <div class="search-bar flex">
+                <input type="text" id="filteredServicesNameSearch" placeholder="주류 이름 검색" class="px-4 py-2 rounded-l focus:outline-none">
+                <button onclick="getFilteredServicesNameInputValue()" class="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600 focus:outline-none">검색</button>
+            </div>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded ml-2 hover:bg-blue-600 focus:outline-none" onclick="location.href='{% url 'query_view'%}'">챗봇</button>
         </div>
     </header>
     <main class="p-4">
+        <div id="filterdService"></div>
         <div id="aicoholServices"></div>
     </main>
 </body>
