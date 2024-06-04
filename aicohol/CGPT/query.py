@@ -94,16 +94,17 @@ def reference_recommend(query):
         refer = file.read()
 
     qa_chain = RetrievalQA.from_chain_type(
-        llm=OpenAI(temperature=0),
+        llm=OpenAI(temperature=0, max_tokens=1024),
         chain_type="stuff",
         retriever=retriever,
     )
 
     query = (
-        "백틱 세 개로 구분된 문장은 술과 관련된 정보를 추천해달라는 의미야.\
-        술과 관련된 어떤 키워드를 찾을 수 없다면, 단 하나의 임의의 술에 대한 정보로 추천해줘.\
-        또한 백틱 2개로 구분된 문장은 이제까지 추천을 받았던 술들에 대한 정보야. 이 정보가 의미가 있다면, \
-        해당 정보도 답변에 넣어줘.\
+        "백틱 세 개로 구분된 문장은 술과 관련된 정보를 추천해달라는 의미입니다.\
+        술과 관련된 어떤 키워드를 찾을 수 없다면, 단 하나의 임의의 술에 대한 정보로 추천해주세요.\
+        또한 백틱 2개로 구분된 문장은 이제까지 추천을 받았던 술들에 대한 정보입니다. 이 정보가 의미가 있다면, \
+        해당 정보도 답변에 요약해서 넣어주세요.\
+        최종적으로, 모든 답변은 문장으로 끝나야합니다.\
             ```"
         + query
         + "``` ``"
