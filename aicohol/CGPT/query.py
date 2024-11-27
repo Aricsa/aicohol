@@ -120,7 +120,7 @@ def reference_recommend(query):
 def prompt_research(prompt):
     # 프롬프트 프로그래밍과 openai api를 통해 사용자 쿼리 분석
     query = client.chat.completions.create(
-        model="gpt-3.5-turbo-0613",
+        model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "assistant",
